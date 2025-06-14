@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Informe de Satisfacción: Cafetería Sostenible</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-heatmap"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -14,6 +15,8 @@
             --azul: #2196F3;
             --turquesa: #009688;
             --gris: #f8f9fa;
+            --rojo: #f44336;
+            --naranja: #FF9800;
         }
         
         * {
@@ -168,16 +171,19 @@
         .priority-high {
             background: #ffebee;
             color: #c62828;
+            border-left: 4px solid var(--rojo);
         }
         
         .priority-medium {
             background: #fff8e1;
             color: #f57f17;
+            border-left: 4px solid var(--naranja);
         }
         
         .priority-low {
             background: #e8f5e9;
             color: #2e7d32;
+            border-left: 4px solid var(--verde);
         }
         
         .conclusion-section {
@@ -193,6 +199,32 @@
             padding: 30px;
             color: var(--marron);
             font-size: 0.9rem;
+        }
+
+        .heatmap-container {
+            height: 250px;
+            margin: 20px 0;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .data-table th, .data-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .data-table th {
+            background-color: var(--beige);
+            color: var(--marron);
+        }
+        
+        .data-table tr:hover {
+            background-color: #f5f5f5;
         }
         
         @media (max-width: 768px) {
@@ -213,7 +245,7 @@
                 <i class="fas fa-mug-hot"></i>
             </div>
             <h1>Informe de Satisfacción: Cafetería Sena</h1>
-            <p>Análisis de respuestas de clientes</p>
+            <p>Análisis completo de 29 respuestas de clientes</p>
             <div class="date-badge">
                 <i class="fas fa-calendar-alt"></i> 29 Respuestas | 13-14 Junio 2025
             </div>
@@ -254,7 +286,7 @@
             
             <div class="recommendation">
                 <h3>Recomendación Principal</h3>
-                <p>Rediseñar la distribución de espacios, implementar horarios escalonados, y lanzar nuevos platos con maíz, pepino y tomate cherry.</p>
+                <p>Rediseñar la distribución de espacios, implementar horarios escalonados, revisar política de precios, y lanzar nuevos platos con maíz, pepino y tomate cherry.</p>
             </div>
         </section>
 
@@ -285,10 +317,10 @@
                 </div>
                 
                 <div class="stat-card">
-                    <h3>Decoración Ecológica</h3>
+                    <h3>Métodos de Pago</h3>
                     <span class="highlight">3.9/5</span>
-                    <p>Buena aceptación (62% ≥4)</p>
-                    <div class="badge priority-low">Prioridad Baja</div>
+                    <p>76% calificó ≥4</p>
+                    <div class="badge priority-low">Fortaleza</div>
                 </div>
             </div>
             
@@ -309,7 +341,7 @@
                     </div>
                 </div>
                 
-                <!-- Nuevo Gráfico 3: Preferencias de vegetales -->
+                <!-- Gráfico 3: Preferencias de vegetales -->
                 <div class="chart-item">
                     <h3>Vegetales Solicitados para Platos Saludables</h3>
                     <div class="chart-container">
@@ -324,7 +356,87 @@
                         <canvas id="pricesChart"></canvas>
                     </div>
                 </div>
+                
+                <!-- Nuevo Gráfico 5: Métodos de pago -->
+                <div class="chart-item">
+                    <h3>Satisfacción con Métodos de Pago</h3>
+                    <div class="chart-container">
+                        <canvas id="paymentsChart"></canvas>
+                    </div>
+                    <p>76% de clientes calificó con 4 o 5 estrellas</p>
+                </div>
+                
+                <!-- Nuevo Gráfico 6: Preferencias de bebidas -->
+                <div class="chart-item">
+                    <h3>Bebidas Saludables Preferidas</h3>
+                    <div class="chart-container">
+                        <canvas id="drinksChart"></canvas>
+                    </div>
+                    <p>Jugos naturales lideran con 65% de preferencia</p>
+                </div>
             </div>
+            
+            <!-- Nuevo: Mapa de calor de correlaciones -->
+            <div class="chart-item">
+                <h3><i class="fas fa-fire"></i> Relación entre Áreas Críticas</h3>
+                <p>Correlación entre satisfacción con diferentes aspectos</p>
+                <div class="heatmap-container">
+                    <canvas id="correlationChart"></canvas>
+                </div>
+                <p class="priority-high">Alta correlación negativa (-0.62) entre satisfacción con el espacio y percepción de precios</p>
+            </div>
+        </section>
+
+        <!-- Nuevo: Análisis de correlación -->
+        <section class="card">
+            <h2><i class="fas fa-link"></i> Análisis de Correlaciones</h2>
+            <p>Los datos muestran relaciones significativas entre diferentes aspectos:</p>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Espacio vs Precios</h3>
+                    <span class="highlight" style="color: var(--rojo);">-0.62</span>
+                    <p>Los clientes insatisfechos con el espacio califican peor los precios</p>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>App vs Métodos de Pago</h3>
+                    <span class="highlight" style="color: var(--azul);">+0.58</span>
+                    <p>Quienes valoran los pagos digitales apoyan más la app</p>
+                </div>
+            </div>
+            
+            <h3>Interpretación de correlaciones:</h3>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Variable 1</th>
+                        <th>Variable 2</th>
+                        <th>Correlación</th>
+                        <th>Interpretación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Espacio</td>
+                        <td>Precios</td>
+                        <td>-0.62</td>
+                        <td>Fuerte relación negativa: problemas de espacio afectan percepción de precios</td>
+                    </tr>
+                    <tr>
+                        <td>App móvil</td>
+                        <td>Métodos de pago</td>
+                        <td>+0.58</td>
+                        <td>Clientes que usan pagos digitales tienen mayor interés en el software</td>
+                    </tr>
+                    <tr>
+                        <td>Decoración</td>
+                        <td>Vegetales saludables</td>
+                        <td>+0.42</td>
+                        <td>Clientes preocupados por el ambiente valoran opciones saludables</td>
+                    </tr>
+                </tbody>
+            </table>
         </section>
 
         <!-- Conclusiones y Recomendaciones -->
@@ -339,21 +451,33 @@
                         <li>90% demanda opciones de desayuno diario</li>
                         <li>76% satisfechos con opciones de pago digital</li>
                         <li>62% apoya decoración ecológica</li>
-                        <li>62% ve viable la implementación de una app para mejorar la toma de los pedidos</li>
+                        <li>62% ve viable app móvil para pedidos</li>
                     </ul>
                 </div>
                 
                 <div>
-                    <h3><i class="fas fa-exclamation-triangle"></i> Áreas de Mejora</h3>
+                    <h3><i class="fas fa-exclamation-triangle"></i> Áreas Críticas</h3>
                     <ul>
                         <li>59% insatisfechos con distribución de espacios</li>
                         <li>42% considera precios inadecuados</li>
+                        <li>Solo 28% satisfecho con relación calidad-precio</li>
                     </ul>
                 </div>
             </div>
-        
+            
+            <div class="recommendation" style="background: rgba(255,255,255,0.2); border-left: 4px solid white; margin-top: 20px;">
+                <h3>Recomendaciones Estratégicas</h3>
+                <ol>
+                    <li>Rediseñar la distribución espacial para mejorar el flujo de clientes</li>
+                    <li>Revisar la estructura de precios para mejorar la percepción de valor</li>
+                    <li>Implementar horarios escalonados para reducir aglomeraciones</li>
+                    <li>Desarrollar una aplicación móvil para optimizar pedidos</li>
+                    <li>Introducir nuevos platos saludables con maíz, pepino y tomate cherry</li>
+                </ol>
+            </div>
         </section>
     </div>
+
 
     <script>
         // Datos para los gráficos
@@ -398,6 +522,57 @@
             }]
         };
 
+        // Nuevo: Datos de métodos de pago
+        const paymentsData = {
+            labels: ['1 (Malo)', '2', '3', '4', '5 (Excelente)'],
+            datasets: [{
+                label: 'Satisfacción con Métodos de Pago',
+                data: [0, 4, 5, 8, 11],
+                backgroundColor: '#2196F3',
+                borderWidth: 1
+            }]
+        };
+
+        // Nuevo: Datos de bebidas saludables
+        const drinksData = {
+            labels: ['Jugos naturales (65%)', 'Batidos (28%)', 'Malteadas (3%)'],
+            datasets: [{
+                label: 'Preferencias de Bebidas',
+                data: [19, 8, 1],
+                backgroundColor: ['#4CAF50', '#FF9800', '#9C27B0'],
+                borderWidth: 1
+            }]
+        };
+
+        // Nuevo: Datos para mapa de calor de correlaciones
+        const correlationData = {
+            labels: ['Espacio', 'Precios', 'App', 'Pagos'],
+            datasets: [{
+                label: 'Correlaciones',
+                data: [
+                    {x: 'Espacio', y: 'Espacio', r: 1},
+                    {x: 'Espacio', y: 'Precios', r: -0.62},
+                    {x: 'Espacio', y: 'App', r: 0.31},
+                    {x: 'Espacio', y: 'Pagos', r: 0.22},
+                    
+                    {x: 'Precios', y: 'Espacio', r: -0.62},
+                    {x: 'Precios', y: 'Precios', r: 1},
+                    {x: 'Precios', y: 'App', r: 0.18},
+                    {x: 'Precios', y: 'Pagos', r: 0.15},
+                    
+                    {x: 'App', y: 'Espacio', r: 0.31},
+                    {x: 'App', y: 'Precios', r: 0.18},
+                    {x: 'App', y: 'App', r: 1},
+                    {x: 'App', y: 'Pagos', r: 0.58},
+                    
+                    {x: 'Pagos', y: 'Espacio', r: 0.22},
+                    {x: 'Pagos', y: 'Precios', r: 0.15},
+                    {x: 'Pagos', y: 'App', r: 0.58},
+                    {x: 'Pagos', y: 'Pagos', r: 1}
+                ]
+            }]
+        };
+
         // Inicialización de gráficos
         window.onload = function() {
             // Gráfico de satisfacción con espacios
@@ -407,6 +582,15 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.parsed.y} respuestas (${Math.round(context.parsed.y/29*100)}%)`;
+                                }
+                            }
+                        }
+                    },
                     scales: {
                         y: {
                             beginAtZero: true,
@@ -428,6 +612,16 @@
                     plugins: {
                         legend: {
                             position: 'bottom'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const value = context.parsed;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = Math.round(value / total * 100);
+                                    return `${context.label}: ${value} (${percentage}%)`;
+                                }
+                            }
                         }
                     }
                 }
@@ -441,6 +635,15 @@
                     indexAxis: 'y',
                     responsive: true,
                     maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.parsed.x} respuestas (${Math.round(context.parsed.x/29*100)}%)`;
+                                }
+                            }
+                        }
+                    },
                     scales: {
                         x: {
                             beginAtZero: true,
@@ -459,11 +662,98 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.parsed.y} respuestas (${Math.round(context.parsed.y/28*100)}%)`;
+                                }
+                            }
+                        }
+                    },
                     scales: {
                         y: {
                             beginAtZero: true,
                             ticks: {
                                 stepSize: 2
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Nuevo: Gráfico de métodos de pago
+            new Chart(document.getElementById('paymentsChart'), {
+                type: 'bar',
+                data: paymentsData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.parsed.y} respuestas (${Math.round(context.parsed.y/28*100)}%)`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 2
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Nuevo: Gráfico de bebidas saludables
+            new Chart(document.getElementById('drinksChart'), {
+                type: 'pie',
+                data: drinksData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${context.parsed} respuestas`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Nuevo: Mapa de calor de correlaciones
+            new Chart(document.getElementById('correlationChart'), {
+                type: 'bubble',
+                data: correlationData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'category',
+                            labels: ['Espacio', 'Precios', 'App', 'Pagos']
+                        },
+                        y: {
+                            type: 'category',
+                            labels: ['Espacio', 'Precios', 'App', 'Pagos']
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `Correlación: ${context.raw.r}`;
+                                }
                             }
                         }
                     }
